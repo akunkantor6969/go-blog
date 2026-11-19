@@ -1,0 +1,19 @@
+# Environment & rahasia
+.env
+
+# Binary hasil build Go
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+go-blog
+
+# File & folder testing / coverage
+*.test
+*.out
+vendor/
+
+# IDE / Editor
+.vscode/
+.idea/
