@@ -1,0 +1,129 @@
+basePath: /
+definitions:
+  handler.LoginRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  repository.Artikel:
+    properties:
+      id:
+        type: integer
+      isi:
+        type: string
+      judul:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: Dokumentasi REST API untuk manajemen artikel dengan autentikasi JWT.
+  title: go-blog REST API
+  version: "1.0"
+paths:
+  /api/artikel/:
+    get:
+      description: Mengambil daftar artikel dengan pagination (?page=1&limit=10) atau
+        detail artikel berdasarkan ID
+      parameters:
+      - description: Nomor halaman
+        in: query
+        name: page
+        type: integer
+      - description: Jumlah data per halaman
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Ambil daftar atau detail artikel
+      tags:
+      - Artikel
+    post:
+      consumes:
+      - application/json
+      description: Menambahkan artikel baru ke database (membutuhkan token JWT)
+      parameters:
+      - description: Data Artikel Baru
+        in: body
+        name: artikel
+        required: true
+        schema:
+          $ref: '#/definitions/repository.Artikel'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Buat artikel baru
+      tags:
+      - Artikel
+  /api/login:
+    post:
+      consumes:
+      - application/json
+      description: 'Mengautentikasi username dan password lalu mengembalikan token
+        Bearer JWT. Contoh body: {"username": "admin", "password": "123"}'
+      parameters:
+      - description: Kredensial Login
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Login untuk mendapatkan token JWT
+      tags:
+      - Auth
+securityDefinitions:
+  BearerAuth:
+    description: 'Masukkan token JWT dengan format: Bearer <token>'
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

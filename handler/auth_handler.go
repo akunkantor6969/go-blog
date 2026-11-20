@@ -14,6 +14,17 @@ type LoginRequest struct {
 	Password string `json:"password"`
 }
 
+// LoginHandler godoc
+// @Summary      Login untuk mendapatkan token JWT
+// @Description  Mengautentikasi username dan password lalu mengembalikan token Bearer JWT. Contoh body: {"username": "admin", "password": "123"}
+// @Tags         Auth
+// @Accept       json
+// @Produce      json
+// @Param        request  body      LoginRequest  true  "Kredensial Login"
+// @Success      200      {object}  map[string]any
+// @Failure      400      {object}  map[string]any
+// @Failure      401      {object}  map[string]any
+// @Router       /api/login [post]
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		KirimError(w, "Method tidak diizinkan", http.StatusMethodNotAllowed)

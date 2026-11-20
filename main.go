@@ -16,6 +16,10 @@ import (
 	"go-blog/handler"
 
 	"github.com/golang-jwt/jwt/v5"
+
+	_ "go-blog/docs"
+
+	httpSwagger "github.com/swaggo/http-swagger"
 )
 
 // Middleware untuk mencatat (logging) setiap request yang masuk
@@ -89,6 +93,17 @@ func JWTMiddleware(next http.Handler) http.Handler {
 	})
 }
 
+// @title           go-blog REST API
+// @version         1.0
+// @description     Dokumentasi REST API untuk manajemen artikel dengan autentikasi JWT.
+// @host            localhost:8080
+// @BasePath        /
+
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
+// @description Masukkan token JWT dengan format: Bearer <token>
+
 func main() {
 	// Panggil inisialisasi database saat aplikasi pertama kali menyala
 	config.InitDatabase()
@@ -105,6 +120,7 @@ func main() {
 
 	// Daftarkan handler seperti biasa
 	mux := http.NewServeMux()
+	mux.Handle("/swagger/", httpSwagger.WrapHandler)
 	mux.HandleFunc("/api/login", handler.LoginHandler)
 	mux.HandleFunc("/api/artikel/", handler.ArtikelHandler)
 
