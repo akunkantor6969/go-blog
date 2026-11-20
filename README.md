@@ -1,23 +1,28 @@
-# go-blog
+#go-blog API — Backend Santuy Rasa Proyek Tongkrongan
 
-REST API blog sederhana berbasis Go (`net/http`) dengan arsitektur modular, autentikasi JWT, *unit testing* menggunakan *mocking* repository, dan *graceful shutdown* dengan koneksi MariaDB.
+Yo! Selamat datang di repo **go-blog** 
+Ini bukan proyek korporat kaku berdasi, tapi murni eksperimen ngoding bareng sirkel buat bikin REST API pakai **Go (Golang)** + **MariaDB/MySQL** tanpa *framework* macem-macem (pure `net/http` bos, biar kerasa ototnya).
 
-## Fitur Utama
+---
 
-- **Arsitektur Modular**: Pemisahan tanggung jawab ke dalam package `config`, `handler`, dan `repository`.
-- **Autentikasi JWT**: Endpoint login (`POST /api/login`) menggunakan `github.com/golang-jwt/jwt/v5` dan proteksi *request* non-`GET` lewat `JWTMiddleware`.
-- **Unit Testing & Mocking**: Pengujian handler, validasi, login, dan *mock* `ArtikelRepository` menggunakan `testing` dan `net/http/httptest`.
-- **Graceful Shutdown**: Menangani sinyal berhenti (`SIGINT` / `SIGTERM`) agar server dan koneksi database ditutup dengan rapi.
+## Fitur Utama (Udah Kayak Startup Tier-1)
+- **CRUD Artikel**: Bisa *create*, baca semua (udah ada *pagination*-nya dong!), baca detail, edit, sampai hapus artikel.
+- **Satpam JWT (`BearerAuth`)**: Yang mau bikin/ngubah artikel wajib login dulu biar dapet tiket masuk berupa token JWT. Nggak bisa asal nyelonong!
+- **Swagger UI Interaktif**: Males buka Bruno/Postman? Tenang, sekarang dokumentasinya udah *live* di browser! Tinggal klik-klik *Try it out*, kelar urusan.
 
-## Struktur Folder
+---
 
-```text
-go-blog/
-├── config/          # Inisialisasi konfigurasi dan koneksi MariaDB
-├── handler/         # HTTP handler, response helper, interface repo, dan unit test
-├── repository/      # Akses data dan query ke MariaDB
-├── .env.example     # Contoh variabel environment
-├── .gitignore       # Daftar file/folder yang diabaikan Git
-├── go.mod           # Definisi module dan dependensi Go
-├── go.sum           # Checksum dependensi
-└── main.go          # Entry point, middleware, routing, dan graceful shutdown
+## Tech Stack
+- **Bahasa**: Go (Golang)
+- **Database**: MariaDB / MySQL
+- **Auth**: JWT (JSON Web Token)
+- **Dokumentasi**: Swaggo (`swag` + `http-swagger`)
+
+---
+
+## Cara Running di Laptop Masing-Masing
+
+1. **Clone dulu repo ini, jangan cuma diliatin**:
+   ```bash
+   git clone <url-repo-kamu>
+   cd go-blog
